@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace CacheWithRedis.Api.Extensions;
 
@@ -10,6 +11,17 @@ public static class DistributedCacheExtensions
         TimeSpan? absoluteExpireTime = null,
         TimeSpan? unusedExpireTime = null)
     {
+        var options = new DistributedCacheEntryOptions()
+        {
+            AbsoluteExpirationRelativeToNow = absoluteExpireTime ?? TimeSpan.FromSeconds(60),
+            SlidingExpiration = unusedExpireTime ?? TimeSpan.FromSeconds(60)
+        };
 
+        var jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+        await cache.SetStringAsync(recordId, jsonData, options);
     }
 }
