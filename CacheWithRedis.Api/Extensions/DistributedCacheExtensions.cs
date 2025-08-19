@@ -24,4 +24,16 @@ public static class DistributedCacheExtensions
 
         await cache.SetStringAsync(recordId, jsonData, options);
     }
+
+    public static async Task<T> GetRecordAsync<T>(this IDistributedCache cache, string recordId)
+    {
+        var jsonData = await cache.GetStringAsync(recordId);
+        if (jsonData is null)
+        {
+            return default!;
+        }
+
+        var data = JsonSerializer.Deserialize<T>(jsonData);
+        return data!;
+    }
 }
