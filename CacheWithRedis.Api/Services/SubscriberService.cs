@@ -16,6 +16,8 @@ public class SubscriberService(
 
     public async Task<IEnumerable<Subscriber>> GetAllSubscribersAsync(CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         _logger.LogInformation("Starting GetAllSubscribersAsync operation");
 
         try

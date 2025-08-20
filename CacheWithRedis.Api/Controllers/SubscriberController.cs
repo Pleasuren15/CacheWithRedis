@@ -16,6 +16,7 @@ public class SubscriberController(
     [HttpGet("GetAllSubscribers")]
     public async Task<ActionResult<IEnumerable<Subscriber>>> GetAllSubscribers(CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         _logger.LogInformation("GetAllSubscribers endpoint called");
         
         try
