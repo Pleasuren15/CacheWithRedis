@@ -8,7 +8,7 @@ public class CacheService(IDistributedCache cache, ILogger<CacheService> logger)
     private readonly IDistributedCache _cache = cache;
     private readonly ILogger<CacheService> _logger = logger;
 
-    public async Task SetRecordAsync<T>(string recordId, T data, TimeSpan? absoluteExpireTime = null, TimeSpan? unusedExpireTime = null)
+    public async Task SetRecordAsync<T>(string recordId, T data, TimeSpan? absoluteExpireTime = null, TimeSpan? unusedExpireTime = null, CancellationToken cancellationToken = default)
     {
         _logger.LogDebug("Setting cache record with key: {RecordId}, Type: {DataType}", recordId, typeof(T).Name);
         
@@ -34,7 +34,7 @@ public class CacheService(IDistributedCache cache, ILogger<CacheService> logger)
             _logger.LogDebug("Serialized data size: {DataSize} characters for key: {RecordId}", 
                 jsonData.Length, recordId);
 
-            await _cache.SetStringAsync(recordId, jsonData, options);
+            await _cache.SetStringAsync(recordId, jsonData, options, cancellationToken);
             
             _logger.LogInformation("Successfully cached data for key: {RecordId}", recordId);
         }
@@ -45,14 +45,14 @@ public class CacheService(IDistributedCache cache, ILogger<CacheService> logger)
         }
     }
 
-    public async Task<T> GetRecordAsync<T>(string recordId)
+    public async Task<T> GetRecordAsync<T>(string recordId, CancellationToken cancellationToken = default)
     {
         _logger.LogDebug("Retrieving cache record with key: {RecordId}, Expected type: {DataType}", 
             recordId, typeof(T).Name);
         
         try
         {
-            var jsonData = await _cache.GetStringAsync(recordId);
+            var jsonData = await _cache.GetStringAsync(recordId, cancellationToken);
             if (jsonData is null)
             {
                 _logger.LogDebug("Cache miss for key: {RecordId}", recordId);

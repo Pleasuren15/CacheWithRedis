@@ -14,7 +14,7 @@ public class SubscriberService(
     private readonly ILogger<SubscriberService> _logger = logger;
     private const string CacheKey = "subscribers_cache_key";
 
-    public async Task<IEnumerable<Subscriber>> GetAllSubscribersAsync()
+    public async Task<IEnumerable<Subscriber>> GetAllSubscribersAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Starting GetAllSubscribersAsync operation");
 
@@ -22,7 +22,7 @@ public class SubscriberService(
         {
             // Try to get from cache first
             _logger.LogDebug("Attempting to retrieve subscribers from cache");
-            var cachedSubscribers = await _cacheService.GetRecordAsync<IEnumerable<Subscriber>>(CacheKey);
+            var cachedSubscribers = await _cacheService.GetRecordAsync<IEnumerable<Subscriber>>(CacheKey, cancellationToken);
             
             if (cachedSubscribers != null)
             {
@@ -32,16 +32,18 @@ public class SubscriberService(
 
             // Cache miss - get from database
             _logger.LogInformation("Cache miss - retrieving subscribers from database using stored procedure 'GetAllSubscribers'");
-            var subscribers = await _connection.QueryAsync<Subscriber>(
+            var commandDefinition = new CommandDefinition(
                 "GetAllSubscribers", 
-                commandType: CommandType.StoredProcedure);
+                commandType: CommandType.StoredProcedure,
+                cancellationToken: cancellationToken);
+            var subscribers = await _connection.QueryAsync<Subscriber>(commandDefinition);
 
             var subscribersList = subscribers.ToList();
             _logger.LogInformation("Successfully retrieved {Count} subscribers from database", subscribersList.Count);
 
             // Cache the results
             _logger.LogDebug("Caching subscribers for future requests");
-            await _cacheService.SetRecordAsync(CacheKey, subscribersList, TimeSpan.FromMinutes(15));
+            await _cacheService.SetRecordAsync(CacheKey, subscribersList, TimeSpan.FromMinutes(15), null, cancellationToken);
             _logger.LogDebug("Successfully cached subscribers with 15-minute expiration");
 
             return subscribersList;
