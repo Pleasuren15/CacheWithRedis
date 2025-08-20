@@ -120,6 +120,10 @@ CREATE PROCEDURE GetAllSubscribers
 AS
 BEGIN
     SET NOCOUNT ON;
+
+    -- Add 5 second delay before query
+    WAITFOR DELAY '00:00:05';
+
     SELECT SubscriberID, FullName, Email, SubscriptionDate
     FROM Subscriber;
 END;
