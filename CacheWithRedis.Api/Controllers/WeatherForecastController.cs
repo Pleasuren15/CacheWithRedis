@@ -1,3 +1,4 @@
+using CacheWithRedis.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CacheWithRedis.Api.Controllers
@@ -12,10 +13,12 @@ namespace CacheWithRedis.Api.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ICacheService _cacheService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ICacheService cacheService)
         {
             _logger = logger;
+            _cacheService = cacheService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]

@@ -1,3 +1,5 @@
+using CacheWithRedis.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +14,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "CacheWithRedis_";
 });
+
+builder.Services.AddScoped<ICacheService, CacheService>();
 
 var app = builder.Build();
 
