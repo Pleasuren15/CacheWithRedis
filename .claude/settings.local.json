@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rm /mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api/Data/ApplicationDbContext.cs)"
+      "Bash(rm /mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api/Data/ApplicationDbContext.cs)",
+      "Bash(rm /mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api/Controllers/WeatherForecastController.cs)",
+      "Bash(rm /mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api/WeatherForecast.cs)"
     ],
     "deny": []
   }
