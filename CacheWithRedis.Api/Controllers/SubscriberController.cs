@@ -1,22 +1,18 @@
+using System.Data;
 using CacheWithRedis.Api.Models;
 using CacheWithRedis.Api.Services;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace CacheWithRedis.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class SubscriberController(
-    IDbConnection connection,
-    ICacheService cacheService,
-    ILogger<SubscriberController> logger) : ControllerBase
+    IDbConnection _connection,
+    ICacheService _cacheService,
+    ILogger<SubscriberController> _logger) : ControllerBase
 {
-    private readonly IDbConnection _connection = connection;
-    private readonly ICacheService _cacheService = cacheService;
-    private readonly ILogger<SubscriberController> _logger = logger;
-
     [HttpGet("GetAllSubscribers")]
     public async Task<ActionResult<IEnumerable<Subscriber>>> GetAllSubscribers()
     {
