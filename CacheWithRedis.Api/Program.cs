@@ -21,6 +21,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 });
 
 builder.Services.AddScoped<ICacheService, CacheService>();
+builder.Services.AddScoped<ISubscriberService, SubscriberService>();
 
 var app = builder.Build();
 
