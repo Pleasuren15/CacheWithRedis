@@ -25,7 +25,7 @@ services:
       - redis
     restart: unless-stopped
 
-    # Server=localhost,1433;Database=PsDevs;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True
+  # Server=localhost,1433;Database=PsDevs;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True
   application-database:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
