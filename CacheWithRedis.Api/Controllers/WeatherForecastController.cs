@@ -5,21 +5,15 @@ namespace CacheWithRedis.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController(ILogger<WeatherForecastController> logger, ICacheService cacheService) : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-        private readonly ICacheService _cacheService;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ICacheService cacheService)
-        {
-            _logger = logger;
-            _cacheService = cacheService;
-        }
+        private readonly ILogger<WeatherForecastController> _logger = logger;
+        private readonly ICacheService _cacheService = cacheService;
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()

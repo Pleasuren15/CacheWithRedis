@@ -3,14 +3,9 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace CacheWithRedis.Api.Services;
 
-public class CacheService : ICacheService
+public class CacheService(IDistributedCache cache) : ICacheService
 {
-    private readonly IDistributedCache _cache;
-
-    public CacheService(IDistributedCache cache)
-    {
-        _cache = cache;
-    }
+    private readonly IDistributedCache _cache = cache;
 
     public async Task SetRecordAsync<T>(string recordId, T data, TimeSpan? absoluteExpireTime = null, TimeSpan? unusedExpireTime = null)
     {
