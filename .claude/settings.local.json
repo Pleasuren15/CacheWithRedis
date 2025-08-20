@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm /mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api/Data/ApplicationDbContext.cs)"
+    ],
+    "deny": []
+  }
+}
