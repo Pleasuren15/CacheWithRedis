@@ -25,5 +25,23 @@ services:
       - redis
     restart: unless-stopped
 
+    # Server=localhost,1433;Database=PsDevs;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True
+  application-database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - 1433:1433
+    volumes:
+      - ./database-tools/init.sql:/init.sql
+    command: >
+      bash -c "
+        /opt/mssql/bin/sqlservr & 
+        sleep 20 &&
+        /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -i /init.sql -C &&
+        tail -f /dev/null
+      "
+
 volumes:
   redis_data:
