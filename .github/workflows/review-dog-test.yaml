@@ -1,5 +1,9 @@
 name: Review Dog Test
 
+on:
+  push:
+    branches: [ main ]
+
 jobs:
   review-dog-test:
     runs-on: ubuntu-latest
