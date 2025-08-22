@@ -24,14 +24,14 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./CacheWithRedis.Api.sln
       
     - name: Build solution
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build ./CacheWithRedis.Api.sln --no-restore --configuration Release
       
     - name: Run unit tests with coverage
       run: |
-        dotnet test CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj \
+        dotnet test ./CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj \
           --no-build \
           --configuration Release \
           --collect:"XPlat Code Coverage" \
