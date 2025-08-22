@@ -79,7 +79,7 @@ public class SubscriberService(
                 commandType: CommandType.StoredProcedure,
                 cancellationToken: cancellationToken);
             
-            var newSubscriberId = await _connection.QuerySingleAsync<int>(commandDefinition);
+            var newSubscriberId = await _connection.ExecuteScalarAsync<int>(commandDefinition);
             subscriber.SubscriberId = newSubscriberId;
 
             _logger.LogInformation("Successfully added subscriber with ID: {SubscriberId}", newSubscriberId);
