@@ -73,4 +73,20 @@ public class CacheService(IDistributedCache cache, ILogger<CacheService> logger)
             throw;
         }
     }
+
+    public async Task RemoveRecordAsync(string recordId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug("Removing cache record with key: {RecordId}", recordId);
+        
+        try
+        {
+            await _cache.RemoveAsync(recordId, cancellationToken);
+            _logger.LogInformation("Successfully removed cache record for key: {RecordId}", recordId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to remove cache record for key: {RecordId}", recordId);
+            throw;
+        }
+    }
 }
