@@ -1,5 +1,7 @@
+using System.Text.Json;
 using CacheWithRedis.Api.Models;
 using CacheWithRedis.Api.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CacheWithRedis.Api.Controllers;
@@ -8,17 +10,19 @@ namespace CacheWithRedis.Api.Controllers;
 [Route("[controller]")]
 public class SubscriberController(
     ISubscriberService subscriberService,
-    ILogger<SubscriberController> logger) : ControllerBase
+    ILogger<SubscriberController> logger,
+    IValidator<Subscriber> validator) : ControllerBase
 {
     private readonly ISubscriberService _subscriberService = subscriberService;
     private readonly ILogger<SubscriberController> _logger = logger;
+    private readonly IValidator<Subscriber> _validator = validator;
 
     [HttpGet("GetAllSubscribers")]
     public async Task<ActionResult<IEnumerable<Subscriber>>> GetAllSubscribers(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         _logger.LogInformation("GetAllSubscribers endpoint called");
-        
+
         try
         {
             var subscribers = await _subscriberService.GetAllSubscribersAsync(cancellationToken);
@@ -40,34 +44,16 @@ public class SubscriberController(
     [HttpPost("AddSubscriber")]
     public async Task<ActionResult<Subscriber>> AddSubscriber([FromBody] Subscriber subscriber, CancellationToken cancellationToken)
     {
+        var validatioinResults = _validator.Validate(subscriber);
+        if (validatioinResults.Errors.Count > 0)
+        {
+            throw new Exception(message: JsonSerializer.Serialize(validatioinResults.ToDictionary(), new JsonSerializerOptions { WriteIndented = true }));
+        }
         cancellationToken.ThrowIfCancellationRequested();
         _logger.LogInformation("AddSubscriber endpoint called for email: {Email}", subscriber.Email);
 
-        if (subscriber == null)
-        {
-            _logger.LogWarning("AddSubscriber called with null subscriber");
-            return BadRequest("Subscriber data is required");
-        }
-
-        if (string.IsNullOrEmpty(subscriber.FullName))
-        {
-            _logger.LogWarning("AddSubscriber called with empty FullName");
-            return BadRequest("FullName is required");
-        }
-
-        if (string.IsNullOrEmpty(subscriber.Email))
-        {
-            _logger.LogWarning("AddSubscriber called with empty Email");
-            return BadRequest("Email is required");
-        }
-
         try
         {
-            if (subscriber.SubscriptionDate == default)
-            {
-                subscriber.SubscriptionDate = DateTime.UtcNow;
-            }
-
             var newSubscriber = await _subscriberService.AddSubscriberAsync(subscriber, cancellationToken);
             _logger.LogInformation("Successfully processed AddSubscriber request for ID: {SubscriberId}", newSubscriber.SubscriberId);
             return CreatedAtAction(nameof(AddSubscriber), new { id = newSubscriber.SubscriberId }, newSubscriber);
