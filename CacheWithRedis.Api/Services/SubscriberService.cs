@@ -56,4 +56,44 @@ public class SubscriberService(
             throw;
         }
     }
+
+    public async Task<Subscriber> AddSubscriberAsync(Subscriber subscriber, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        _logger.LogInformation("Starting AddSubscriberAsync operation for subscriber with email: {Email}", subscriber.Email);
+
+        try
+        {
+            var parameters = new
+            {
+                FullName = subscriber.FullName,
+                Email = subscriber.Email,
+                SubscriptionDate = subscriber.SubscriptionDate
+            };
+
+            _logger.LogDebug("Adding subscriber to database using stored procedure 'AddSubscriber'");
+            var commandDefinition = new CommandDefinition(
+                "AddSubscriber", 
+                parameters,
+                commandType: CommandType.StoredProcedure,
+                cancellationToken: cancellationToken);
+            
+            var newSubscriberId = await _connection.QuerySingleAsync<int>(commandDefinition);
+            subscriber.SubscriberId = newSubscriberId;
+
+            _logger.LogInformation("Successfully added subscriber with ID: {SubscriberId}", newSubscriberId);
+
+            // Invalidate cache since we added a new subscriber
+            _logger.LogDebug("Invalidating subscribers cache due to new subscriber addition");
+            await _cacheService.RemoveRecordAsync(CacheKey, cancellationToken);
+            
+            return subscriber;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while adding subscriber with email: {Email}", subscriber.Email);
+            throw;
+        }
+    }
 }
