@@ -5,9 +5,15 @@ Generate NUnit test cases for the following C# code. Ensure that the tests cover
 ## Substitutes Set Up
 
 1. A controller name will be passed ass argument {{ arg.0 }}, from that controller name you should read the flow from top down & get all the  interface dependencies.
-2. Once you have gotten all the dependencies injected create a new static class named `{{ arg.0 }}Substitutes.cs` int the NUnit test project folder name `Substitutes`, the class must initialise all the dependencies found using the latest version of NSubstitute package
+2. Once you have gotten all the dependencies injected, only create a new static class named `{{ arg.0 }}Substitutes.cs` int the NUnit test project folder name `Substitutes`, the class must initialise all the dependencies found using the latest version of NSubstitute package
 3. An example of NSubsitute instatiation is below
 ```charp
    IEmailSender EmailSender = Substitute.For<IEmailSender>();
 ```
-4.  Add all necessary nuget packages & project references.
+4. This must be recursive in a way that you dont only subsitute controller's interface, but drill down ot the child classes that all get hit during the controller execution.
+5.  Add all necessary nuget packages & project references. Remove all unnecessary methods you might've added & auto-implemented property syntax.
+
+## Work  On Tests
+
+1. Create passing test, code coverage must be above 90%
+2. Run tests & check if the meet the condition in point 1, if not rework the tests until they pass.
