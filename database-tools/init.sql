@@ -128,3 +128,18 @@ BEGIN
     FROM Subscriber;
 END;
 GO
+
+CREATE PROCEDURE AddSubscriber
+    @FullName NVARCHAR(200),
+    @Email NVARCHAR(255),
+    @SubscriptionDate DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Subscriber (FullName, Email, SubscriptionDate)
+    VALUES (@FullName, @Email, @SubscriptionDate);
+
+    SELECT SCOPE_IDENTITY() AS SubscriberID;
+END;
+GO
