@@ -1,4 +1,5 @@
 using CacheWithRedis.Api.Services;
+using FluentValidation;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -19,6 +20,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "CacheWithRedis_";
 });
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<ISubscriberService, SubscriberService>();
