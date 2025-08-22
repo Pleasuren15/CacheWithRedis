@@ -8,7 +8,10 @@
       "Bash(cat -A docker-compose.yml)",
       "Bash(dos2unix docker-compose.yml)",
       "Bash(sed -i 's/\\r$//' docker-compose.yml)",
-      "Bash(grep -n \"cachewithredis\" docker-compose.yml)"
+      "Bash(grep -n \"cachewithredis\" docker-compose.yml)",
+      "Bash(dotnet restore)",
+      "Bash(docker --version)",
+      "Bash(docker run --rm -v \"/mnt/c/Dev/Learning/CacheWithRedis:/app\" -w /app mcr.microsoft.com/dotnet/sdk:9.0 dotnet restore)"
     ],
     "deny": []
   }
