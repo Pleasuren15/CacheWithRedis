@@ -11,7 +11,11 @@
       "Bash(grep -n \"cachewithredis\" docker-compose.yml)",
       "Bash(dotnet restore)",
       "Bash(docker --version)",
-      "Bash(docker run --rm -v \"/mnt/c/Dev/Learning/CacheWithRedis:/app\" -w /app mcr.microsoft.com/dotnet/sdk:9.0 dotnet restore)"
+      "Bash(docker run --rm -v \"/mnt/c/Dev/Learning/CacheWithRedis:/app\" -w /app mcr.microsoft.com/dotnet/sdk:9.0 dotnet restore)",
+      "Bash(ls -la /usr/bin/)",
+      "Bash(docker run --rm -v \"$(pwd):/src\" -w /src mcr.microsoft.com/dotnet/sdk:9.0 dotnet restore CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj)",
+      "Bash(docker.exe run --rm -v \"$(pwd):/src\" -w /src mcr.microsoft.com/dotnet/sdk:9.0 dotnet restore CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj)",
+      "Bash(docker.exe run --rm -v \"$(pwd):/src\" -w /src -e DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0 mcr.microsoft.com/dotnet/sdk:9.0 dotnet build CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj --verbosity quiet)"
     ],
     "deny": []
   }
