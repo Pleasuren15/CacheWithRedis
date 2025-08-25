@@ -5,7 +5,7 @@ Generate NUnit test cases for the following C# code. Ensure that the tests cover
 ## Substitutes Set Up
 
 1. A controller name will be passed ass argument {{ arg.0 }}, from that controller name you should read the flow from top down & get all the  interface dependencies.
-2. Once you have gotten all the dependencies injected, only create a new static class named `{{ arg.0 }}Substitutes.cs` int the NUnit test project folder name `Substitutes`, the class must initialise all the dependencies found using the latest version of NSubstitute package
+2. Once you have gotten all the dependencies injected, only create a new class named `{{ arg.0 }}Substitutes.cs` int the NUnit test project folder name `Substitutes`, the class must initialise all the dependencies found using the latest version of NSubstitute package
 3. An example of NSubsitute instatiation is below
 ```charp
    IEmailSender EmailSender = Substitute.For<IEmailSender>();
@@ -27,9 +27,4 @@ Generate NUnit test cases for the following C# code. Ensure that the tests cover
 2. The class will have a static method called `CreateSystemUnderTest` that will take in the `{{ arg.0 }}Substitutes.cs` object as a parameter, the values of this parameter will be pass into the builders.
 3. Inside the method we will bo overrding all the possible `{{ arg.0 }}Substitutes.cs` objects values using the builders we created in the `Builder Set Up` step.
 4. The method should have a return type of `{{ arg.0 }}` controller.
-5. At the end of the method instantiate the controller using the overriden fakes & return the controller.
-
-## Work  On Tests
-
-1. Create passing test, code coverage must be above 90%, test names should be create with the `Given_ When_ Then_` syntax, an example of a test can be `GivenServiceThrowsException_WhenGetAllSubscribers_ThenReturnsStatus500`
-2. Run tests & check if the meet the condition in point 1, if not rework the tests until they pass.
+5. At the end of the method instantiate the controller using the builder method added & return the controller.
