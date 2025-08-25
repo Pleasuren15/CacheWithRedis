@@ -11,9 +11,15 @@ Generate NUnit test cases for the following C# code. Ensure that the tests cover
    IEmailSender EmailSender = Substitute.For<IEmailSender>();
 ```
 4. This must be recursive in a way that you dont only subsitute controller's interface, but drill down ot the child classes that all get hit during the controller execution.
-5.  Add all necessary nuget packages & project references. Remove all unnecessary methods you might've added & auto-implemented property syntax.
+5. Add all necessary nuget packages & project references. Remove all unnecessary methods you might've added & auto-implemented property syntax.
 
-## Work  On Tests
+## Builder Set Up
+
+1. For this step you are asked to use the builder pattern to create all the need components.
+2. For all the dependencies that were created in the project, create build methods that return an instantiated object. Objects must initialised using the interfaces created in the `Substitutes Set Up`
+3. Builders must be created in the NUnit test project folder named `Builders`
+
+<!-- ## Work  On Tests
 
 1. Create passing test, code coverage must be above 90%, test names should be create with the `Given_ When_ Then_` syntax, an example of a test can be `GivenServiceThrowsException_WhenGetAllSubscribers_ThenReturnsStatus500`
-2. Run tests & check if the meet the condition in point 1, if not rework the tests until they pass.
+2. Run tests & check if the meet the condition in point 1, if not rework the tests until they pass. -->
