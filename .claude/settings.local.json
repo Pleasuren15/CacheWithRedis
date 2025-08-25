@@ -15,7 +15,20 @@
       "Bash(ls -la /usr/bin/)",
       "Bash(docker run --rm -v \"$(pwd):/src\" -w /src mcr.microsoft.com/dotnet/sdk:9.0 dotnet restore CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj)",
       "Bash(docker.exe run --rm -v \"$(pwd):/src\" -w /src mcr.microsoft.com/dotnet/sdk:9.0 dotnet restore CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj)",
-      "Bash(docker.exe run --rm -v \"$(pwd):/src\" -w /src -e DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0 mcr.microsoft.com/dotnet/sdk:9.0 dotnet build CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj --verbosity quiet)"
+      "Bash(docker.exe run --rm -v \"$(pwd):/src\" -w /src -e DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0 mcr.microsoft.com/dotnet/sdk:9.0 dotnet build CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj --verbosity quiet)",
+      "Bash(mkdir -p \"/mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api.Unit.Tests/Substitutes\")",
+      "Bash(find \"/mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api.Unit.Tests\" -name \"*.cs\" -not -path \"*/obj/*\" -not -path \"*/bin/*\")",
+      "Bash(mkdir -p \"/mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api.Unit.Tests/Controllers\")",
+      "Bash(cd \"/mnt/c/Dev/Learning/CacheWithRedis\")",
+      "Bash(dotnet test CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj --verbosity normal)",
+      "Bash(find /usr -name \"dotnet\")",
+      "Bash(find /opt -name \"dotnet\")",
+      "Bash(find /snap -name \"dotnet\")",
+      "Bash(ls -la /mnt/c/Program Files/dotnet/)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" test CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj --verbosity normal)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" test CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj --verbosity detailed --logger \"console;verbosity=detailed\")",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" test CacheWithRedis.Api.Unit.Tests/CacheWithRedis.Api.Unit.Tests.csproj --verbosity quiet)",
+      "Bash(mkdir -p \"/mnt/c/Dev/Learning/CacheWithRedis/CacheWithRedis.Api.Unit.Tests/Builders\")"
     ],
     "deny": []
   }

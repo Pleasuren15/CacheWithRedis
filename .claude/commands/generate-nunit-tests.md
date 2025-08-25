@@ -29,7 +29,7 @@ Generate NUnit test cases for the following C# code. Ensure that the tests cover
 4. The method should have a return type of `{{ arg.0 }}` controller.
 5. At the end of the method instantiate the controller using the overriden fakes & return the controller.
 
-<!-- ## Work  On Tests
+## Work  On Tests
 
 1. Create passing test, code coverage must be above 90%, test names should be create with the `Given_ When_ Then_` syntax, an example of a test can be `GivenServiceThrowsException_WhenGetAllSubscribers_ThenReturnsStatus500`
-2. Run tests & check if the meet the condition in point 1, if not rework the tests until they pass. -->
+2. Run tests & check if the meet the condition in point 1, if not rework the tests until they pass.
